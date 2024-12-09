@@ -1,0 +1,38 @@
+services:
+  api:
+    build:
+      context: .
+      target: development
+    image: youbetterpay-api:dev
+    ports:
+      - 8080:8080
+      - 5678:5678
+    volumes:
+      - ./:/code
+    environment:
+      MONGO_DB_NAME: "${MONGO_DB_NAME}"
+      MONGO_DB_USER: "${MONGO_DB_USER}"
+      MONGO_DB_PASSWORD: "${MONGO_DB_PASSWORD}"
+      MONGO_DB_HOST: "${MONGO_DB_HOST}"
+      MONGO_DB_PORT: "${MONGO_DB_PORT}"
+      PYTHONPATH: "/code"
+
+  db:
+      image: mongo
+      restart: always
+      volumes:
+        - ./data/mongodb:/data/db 
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: "${MONGO_DB_USER}"
+        MONGO_INITDB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "${MONGO_DB_USER}"
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "${MONGO_DB_PASSWORD}"
+      ME_CONFIG_MONGODB_URL: "mongodb://youbetterpay:MySup3rS3cur3P-a_ssword!@db:27017/"
+      ME_CONFIG_BASICAUTH: false

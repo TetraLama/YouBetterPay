@@ -1,0 +1,9 @@
+services:
+  api:
+    build:
+      context: .
+    image: youbetterpay-api:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/code/app

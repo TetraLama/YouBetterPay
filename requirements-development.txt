@@ -1,0 +1,4 @@
+debugpy
+httpx
+pytest
+pytest-asyncio
